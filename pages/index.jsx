@@ -10,9 +10,9 @@ export default function IndexPage() {
 
     const res = await fetch('/rewritten');
 
-    if (!res.ok) {
+    if (res.status !== 200) {
       setLoading(false);
-      setError(res.statusText);
+      setError(`${res.status} ${res.statusText}`);
       return;
     }
 
