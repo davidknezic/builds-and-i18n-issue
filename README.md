@@ -1,15 +1,10 @@
-# Repro: Vercel `builds` and Next.js `i18n` issue
+# Repro: Vercel `rewrites` and Next.js `i18n` issue
 
-We make extensive use of Vercel's `builds` feature, which allows
-us to build various API functions and our Next.js website all in
-one swoop, always ensuring compatibility between these components.
+We use _Vercel_ `rewrites` quite a lot in our project.
 
-The Vercel monorepo features currently can't guarantee that for us,
-as deployments can finish at different times or failing, leaving
-the components in an inconsistent state.
+We also have a Next.js site in our Vercel project.
 
-Enabling the Next.js `i18n` feature has however broken our current setup,
-as all API function requests now return `404 Not Found`.
+Since we've activated the Next.js `i18n` feature, our _Vercel_ rewrites are broken.
 
 ```diff
 module.exports = {
@@ -21,16 +16,14 @@ module.exports = {
 }
 ```
 
-##  Deployment with "i18n" configured
+## Try it
 
-https://builds-and-i18n-issue-8zwn7bpk7.vercel.app
+This project is deployed under [builds-and-i18n-issue.vercel.app](https://builds-and-i18n-issue.vercel.app/).
 
-* ✅ [`/`](https://builds-and-i18n-issue-8zwn7bpk7.vercel.app/)
-* ❌ [`/api/test`](https://builds-and-i18n-issue-8zwn7bpk7.vercel.app/api/test)
+It consists of a Next.js and a `/function.js` build.
 
-## Deployment without "i18n" configured
+It also adds a rewrite from `/rewritten` to `/function.js`.
 
-https://builds-and-i18n-issue-1ksrl1uzn.vercel.app
+A call to `/rewritten` leads to 404 Not Found.
 
-* ✅ [`/`](https://builds-and-i18n-issue-1ksrl1uzn.vercel.app/)
-* ✅ [`/api/test`](https://builds-and-i18n-issue-1ksrl1uzn.vercel.app/api/v1/test)
+We'd expect it to return `It works!` from `/function.js`.
