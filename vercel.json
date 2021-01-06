@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
       {
-        "src": "api/**/*.js",
+        "src": "function.js",
         "use": "@vercel/node"
       },
       {
@@ -11,6 +11,6 @@
       }
     ],
     "rewrites": [
-      { "source": "/api/v1/test", "destination": "/api/test.js" }
+      { "source": "/rewritten", "destination": "/function.js" }
     ]
   }
